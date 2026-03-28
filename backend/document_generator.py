@@ -4,6 +4,7 @@ import sys
 from docx import Document
 from docx.shared import Pt, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml.ns import qn
 from fpdf import FPDF
 
 
@@ -38,6 +39,13 @@ def _is_title(stripped: str) -> bool:
 def generate_docx(text: str, apply_a_replacement: bool = True) -> bytes:
     """Generate a .docx file from text."""
     doc = Document()
+
+    # Remove any document protection / read-only flags
+    settings = doc.settings.element
+    for tag in settings.findall(qn('w:documentProtection')):
+        settings.remove(tag)
+    # Mark document as final=false so Word doesn't open read-only
+    doc.core_properties.content_status = ""
 
     style = doc.styles["Normal"]
     font = style.font
