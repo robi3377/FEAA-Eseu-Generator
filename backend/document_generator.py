@@ -49,8 +49,8 @@ def generate_docx(text: str, apply_a_replacement: bool = True) -> bytes:
     for section in doc.sections:
         section.top_margin = Cm(2)
         section.bottom_margin = Cm(2)
-        section.left_margin = Cm(3)
-        section.right_margin = Cm(1.5)
+        section.left_margin = Cm(2)
+        section.right_margin = Cm(2)
 
     if apply_a_replacement:
         text = _replace_latin_a_with_cyrillic(text)
@@ -97,7 +97,7 @@ def generate_pdf_from_text(text: str, title: str = "Document", apply_a_replaceme
 
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=20)
-    pdf.set_margins(30, 20, 15)
+    pdf.set_margins(20, 20, 20)
     pdf.add_page()
 
     # Register a Unicode TTF font
